@@ -1,0 +1,21 @@
+pragma language_version >= 0.23;
+
+import CompactStandardLibrary;
+
+export ledger 	fundCriteriaCommitments: Map<Bytes<32>, Bytes<32>>; // public chua cac Fund da dang ky
+
+export circuit registerFund(fundId: Bytes<32>, criteriaCommitments: Bytes<32>) // circuit dung de dang ky 1 fund
+: [] {
+    const publicFundId = disclose(fundId);
+    const publicCriteriaCommitment = disclose(criteriaCommitments);
+
+    assert(
+        !fundCriteriaCommitments.member(publicFundId),
+        "Fund already exists"
+    );
+
+    fundCriteriaCommitments.insert(
+        publicFundId,
+        publicCriteriaCommitment
+    );
+}
